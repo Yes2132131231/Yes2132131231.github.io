@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let ballscore = leftscore + rightscore;
     let Rallyscore = 0;
 
-    let ballAccelerationX = 0.0005;
-    let ballAccelerationY = 0.0005;
+    let ballAccelerationX = 0.0085;
+    let ballAccelerationY = 0.0085;
 
     function updateScoreDisplay() {
         let leftScoreElement = document.getElementById('leftscore');
@@ -182,12 +182,12 @@ document.addEventListener("DOMContentLoaded", function () {
             updateScoreDisplay();
             updateRallyscore();
 
-\            ballX = canvas.width / 2;
+            ballX = canvas.width / 2;
             ballY = canvas.height / 2;
             ballSpeedX = 4;
             ballSpeedY = 4;
 
-\            Rallyscore = 0;
+            Rallyscore = 0;
         }
     }
 
