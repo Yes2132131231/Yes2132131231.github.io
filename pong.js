@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const paddleWidth = 8;
     const paddleHeight = 60;
-    const paddleSpeed = 7;
+    const paddleSpeed = 12.5;
 
     const leftPaddle = {
         x: 10,
