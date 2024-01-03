@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const canvas = document.getElementById('pong');
     const ctx = canvas.getContext('2d');
 
+    canvas.width = 800;
+    canvas.height = 600;
+
     let ballX = canvas.width / 2;
     let ballY = canvas.height / 2;
     let ballSpeedX = 4;
@@ -39,10 +42,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let leftscore = 0;
     let rightscore = 0;
+    let ballscore = leftscore + rightscore;
+    let Rallyscore = 0;
+
+    let ballAccelerationX = 0.0095;
+    let ballAccelerationY = 0.0095;
 
     function updateScoreDisplay() {
         let leftScoreElement = document.getElementById('leftscore');
         let rightScoreElement = document.getElementById('rightscore');
+        let ballScoreElement = document.getElementById('ballscore');
 
         if (!leftScoreElement) {
             leftScoreElement = document.createElement('div');
@@ -58,6 +67,26 @@ document.addEventListener("DOMContentLoaded", function () {
 
         leftScoreElement.textContent = `Left Score: ${leftscore}`;
         rightScoreElement.textContent = `Right Score: ${rightscore}`;
+
+        ballscore = leftscore + rightscore;
+        if (!ballScoreElement) {
+            ballScoreElement = document.createElement('div');
+            ballScoreElement.id = 'ballscore';
+            document.body.appendChild(ballScoreElement);
+        }
+        ballScoreElement.textContent = `Alone Score: ${ballscore}`;
+    }
+
+    function updateRallyscore() {
+        let RallyscoreElement = document.getElementById('Rallyscore');
+
+        if (!RallyscoreElement) {
+            RallyscoreElement = document.createElement('div');
+            RallyscoreElement.id = 'Rallyscore';
+            document.body.appendChild(RallyscoreElement);
+        }
+
+        RallyscoreElement.textContent = `Rally Score: ${Rallyscore}`;
     }
 
     document.addEventListener('keydown', function (event) {
@@ -114,13 +143,35 @@ document.addEventListener("DOMContentLoaded", function () {
         ctx.closePath();
     }
 
+    function checkCollisionAndScore() {
+        if (
+            (ballX - 10 < leftPaddle.x + leftPaddle.width && ballY > leftPaddle.y && ballY < leftPaddle.y + leftPaddle.height) ||
+            (ballX + 10 > rightPaddle.x && ballY > rightPaddle.y && ballY < rightPaddle.y + rightPaddle.height)
+        ) {
+            ballSpeedX = -ballSpeedX;  
+            Rallyscore++;
+            updateRallyscore();  
+        }
+    }
+
     function update() {
         movePaddle(leftPaddle);
         movePaddle(rightPaddle);
 
+        ballSpeedX += (ballSpeedX > 0) ? ballAccelerationX : -ballAccelerationX;
+        ballSpeedY += (ballSpeedY > 0) ? ballAccelerationY : -ballAccelerationY;
+
         ballX += ballSpeedX;
         ballY += ballSpeedY;
 
+        checkCollisionAndScore();  
+
+      
+        if (ballY - 10 < 0 || ballY + 10 > canvas.height) {
+            ballSpeedY = -ballSpeedY;
+        }
+
+        
         if (ballX < 0 || ballX > canvas.width) {
             if (ballX < 0) {
                 rightscore++;
@@ -129,23 +180,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (ballX > canvas.width) {
                 leftscore++;
             }
-        
+           
+            updateScoreDisplay();
+            updateRallyscore();  
+            
+            // Reset ball position if it exceeds boundaries
             ballX = canvas.width / 2;
             ballY = canvas.height / 2;
-        
-            updateScoreDisplay();
-        }
-        
-
-        if (ballY < 0 || ballY > canvas.height) {
-            ballSpeedY = -ballSpeedY;
-        }
-
-        if (
-            (ballX < paddleWidth && ballY > leftPaddle.y && ballY < leftPaddle.y + paddleHeight) ||
-            (ballX > canvas.width - paddleWidth && ballY > rightPaddle.y && ballY < rightPaddle.y + paddleHeight)
-        ) {
-            ballSpeedX = -ballSpeedX;
+            ballSpeedX = 4;
+            ballSpeedY = 4;
         }
     }
 
@@ -163,5 +206,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     updateScoreDisplay();
+    updateRallyscore(); 
     gameLoop();
 });
