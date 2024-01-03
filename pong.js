@@ -47,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let ballAccelerationX = 0.0085;
     let ballAccelerationY = 0.0085;
+    let gravity = 0.2;
 
     function updateScoreDisplay() {
         let leftScoreElement = document.getElementById('leftscore');
@@ -163,6 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
         ballX += ballSpeedX;
         ballY += ballSpeedY;
+
+        ballSpeedY += gravity;
 
         checkCollisionAndScore();
 
