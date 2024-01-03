@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let ballscore = leftscore + rightscore;
     let Rallyscore = 0;
 
-    let ballAccelerationX = 0.0095;
-    let ballAccelerationY = 0.0095;
+    let ballAccelerationX = 0.0085;
+    let ballAccelerationY = 0.0085;
 
     function updateScoreDisplay() {
         let leftScoreElement = document.getElementById('leftscore');
@@ -184,7 +184,7 @@ document.addEventListener("DOMContentLoaded", function () {
             updateScoreDisplay();
             updateRallyscore();  
             
-            // Reset ball position if it exceeds boundaries
+            
             ballX = canvas.width / 2;
             ballY = canvas.height / 2;
             ballSpeedX = 4;
@@ -200,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function gameLoop() {
+        Rallyscore = 0;  
         update();
         draw();
         requestAnimationFrame(gameLoop);
