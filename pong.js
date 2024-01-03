@@ -45,8 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let ballscore = leftscore + rightscore;
     let Rallyscore = 0;
 
-    let ballAccelerationX = 0.0085;
-    let ballAccelerationY = 0.0085;
+    let ballAccelerationX = 0.0005;
+    let ballAccelerationY = 0.0005;
 
     function updateScoreDisplay() {
         let leftScoreElement = document.getElementById('leftscore');
@@ -148,9 +148,9 @@ document.addEventListener("DOMContentLoaded", function () {
             (ballX - 10 < leftPaddle.x + leftPaddle.width && ballY > leftPaddle.y && ballY < leftPaddle.y + leftPaddle.height) ||
             (ballX + 10 > rightPaddle.x && ballY > rightPaddle.y && ballY < rightPaddle.y + rightPaddle.height)
         ) {
-            ballSpeedX = -ballSpeedX;  
+            ballSpeedX = -ballSpeedX;
             Rallyscore++;
-            updateRallyscore();  
+            updateRallyscore();
         }
     }
 
@@ -164,31 +164,30 @@ document.addEventListener("DOMContentLoaded", function () {
         ballX += ballSpeedX;
         ballY += ballSpeedY;
 
-        checkCollisionAndScore();  
+        checkCollisionAndScore();
 
-      
         if (ballY - 10 < 0 || ballY + 10 > canvas.height) {
             ballSpeedY = -ballSpeedY;
         }
 
-        
         if (ballX < 0 || ballX > canvas.width) {
             if (ballX < 0) {
                 rightscore++;
             }
-        
+
             if (ballX > canvas.width) {
                 leftscore++;
             }
-           
+
             updateScoreDisplay();
-            updateRallyscore();  
-            
-            
-            ballX = canvas.width / 2;
+            updateRallyscore();
+
+\            ballX = canvas.width / 2;
             ballY = canvas.height / 2;
             ballSpeedX = 4;
             ballSpeedY = 4;
+
+\            Rallyscore = 0;
         }
     }
 
@@ -200,13 +199,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function gameLoop() {
-        Rallyscore = 0;  
         update();
         draw();
         requestAnimationFrame(gameLoop);
     }
 
     updateScoreDisplay();
-    updateRallyscore(); 
+    updateRallyscore();
     gameLoop();
 });
